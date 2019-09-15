@@ -1,0 +1,15 @@
+<div class="container">
+  {{!-- <label for="username">Username</label>
+    <input value="{{username}}" class="form-control" type="text" name="username" id="username"> --}}
+  <h2>Upload your profile photo</h2>
+  <br>
+  <br>
+  <form action="{{_id}}/upload" method="post" enctype="multipart/form-data">
+    {{!-- <input type="text" name="name"> --}}
+    <input type="file" name="profilePicture">
+    <input type="submit" value="Save">
+  </form>
+  <br>
+  <br>
+  <a href="/profile">Back</a>
+</div>

@@ -1,0 +1,141 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Your step towards a greener city</h1>
+    <p>Green CDMX helps you to ......</p>
+    <p><a class="btn btn-primary btn-lg" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#"
+        role="button">Learn more »</a></p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Pick the route that fits</h2>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+        condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec
+        sed odio dui. </p>
+      <p><a class="btn btn-secondary" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#" role="button">View
+          details »</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>How Green CDMX works</h2>
+      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
+        condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec
+        sed odio dui. </p>
+      <p><a class="btn btn-secondary" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#" role="button">View
+          details »</a></p>
+    </div>
+    <div class="col-md-4">
+      <h2>Get Started</h2>
+      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta
+        felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
+        massa justo sit amet risus.</p>
+      <p><a class="btn btn-secondary" href="/signup" role="button">Sign
+          Up »</a></p>
+    </div>
+  </div>
+  <hr>
+</div>
+
+{{!-- Map --}}
+<div class="container" id="map" style="width: 100%; height: 50vw;"></div>
+<script>
+  mapboxgl.accessToken = "pk.eyJ1Ijoib3R0b2NvZGViZXJsaW4iLCJhIjoiY2swZHhueDF0MGMzbzNobzB1dmQ3Z2x0NiJ9.ybxTXyweubqcEFqhRhyWmw";
+  const map = new mapboxgl.Map({
+    container: "map",
+    style: "mapbox://styles/mapbox/light-v10",
+    //center: [-99.1711, 19.399],
+    //zoom: 15
+  });
+
+  map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
+  //add control panel
+  map.addControl(new mapboxgl.NavigationControl())
+  //const marker = new mapboxgl.Marker()
+  //  .setLngLat([-99.1711, 19.399])
+  //  .addTo(map);
+
+  // Try to get a geolocation object from the web browser
+  if (navigator.geolocation) {
+
+    // Get current position
+    // The permissions dialog will pop up
+    navigator.geolocation.getCurrentPosition(function (position) {
+      // Create an object to match Mapbox's Lat-Lng array format
+      const center = [
+        position.coords.longitude,
+        position.coords.latitude,
+      ];
+      map.setZoom(12).setCenter(center)
+
+      new mapboxgl.Marker({ color: 'red' })
+        .setLngLat(center)
+        .setPopup(new mapboxgl.Popup().setHTML("<h3>You are here</h3>"))
+        .addTo(map)
+      //console.log('center: ', center)
+      // User granted permission
+      // Center the map in the position we got
+    });
+  }
+
+  let locations = []
+  let names = []
+
+  {{#each places as |place|}}
+  locations.push({{{place.location}}})
+  names.push("{{place.name}}")
+  {{/each}}
+      locations.forEach((place, i) => {
+        let [lng, lat] = place.coordinates
+        let place_position = [lng, lat]
+        let popup = new mapboxgl.Popup().setText(names[i])
+        let marker = new mapboxgl.Marker().setLngLat(place_position).setPopup(popup).addTo(map)
+      }) 
+</script>
+</div>
+
+<div class="container">
+  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../images/city-3985941_1280.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Green CDMX</h1>
+          <p>Help your city to improve the life quality by reducing CO2 emissions</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../images/mexico-4066419_1280.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Stay healthy</h1>
+          <p>Move your ass.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="../images/portrait-3091044_1280.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+          <h1>Stay healthy</h1>
+          <p>Move your ass.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <br>
+  <h2>Recent Trips</h2>
+  <div class="row">
+    {{#each trip}}
+    <div class="col-4">
+      <br>
+      <p> {{content}}</p>
+      <img class="post-img" src="{{ this.postPicture.path }}" alt="{{ this.postPicture.originalName }}" /> <br>
+      <small>Created By: {{clearName}}</small>
+      <a href="/edit-book?bookid={{this._id}}">
+        <button class="btn btn-secondary">Edit</button>
+      </a>
+    </div>
+    {{/each}}
+  </div>
+</div>

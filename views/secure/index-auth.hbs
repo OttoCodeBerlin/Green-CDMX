@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="column">
+    <h1>Welcome to IronTumblr</h1>
+    <h5>You are logged in as {{user.username}}</h5>
+    <br>
+
+  </div>
+  <div class="column">
+
+    {{!-- <a href="/signup">Sign Up</a> --}}
+    {{!-- <a href="/login">Login</a> --}}
+    <a href="/profile">Go to Profile</a>
+    <br>
+    <a href="/logout">Logout</a>
+  </div>
+</div>
+<div class="container">
+  <br>
+  <h2>Recent Posts</h2>
+
+  <div class="row">
+    {{#each trip}}
+    <div class="col-4">
+      <br>
+      <p> {{content}}</p>
+      {{!-- <img class="post-img" src="{{ this.postPicture.path }}" alt="{{ this.postPicture.originalName }}" /> <br> --}}
+      <small>Created By: {{clearName}}</small>
+      {{!-- <a href="/edit-book?bookid={{this._id}}">
+          <button class="btn btn-secondary">Edit</button>
+        </a> --}}
+    </div>
+    {{/each}}
+  </div>
+</div>

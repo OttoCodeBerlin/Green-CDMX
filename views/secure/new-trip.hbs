@@ -1,0 +1,107 @@
+
+<div class="container mt-5">
+<div id="search" class="input-group mb-3">
+  <div  class="form-group ml-0"></div>
+  {{!-- <div id='map' style='display: inline-flex;width: 400px; height: 300px;'></div> --}}
+</div>
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent Trips</button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Action</a>
+      <a class="dropdown-item" href="#">Another action</a>
+      <a class="dropdown-item" href="#">Something else here</a>
+      <div role="separator" class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#">Separated link</a>
+    </div>
+  </div>
+  <input type="text" class="form-control" aria-label="Text input with dropdown button">
+</div>
+
+
+  <div class="input-group mb-3">
+  <form action="/{{_id}}/newTrip" method="post">
+    <div class="form-group">
+      <label for="name">Trip Name</label>
+      <input value="{{name}}" class="form-control" type="text" name="name" id="name">
+    </div>
+    {{!-- <div class="form-group">
+      <label for="type">Select Coffeeshop or Bookstore</label>
+      <select class="custom-select" name="type" id="type">
+        <option {{#if isCoffeeshop}} selected {{/if}} value="COFFEE">Coffeeshop</option>
+        <option {{#if isBookstore}} selected {{/if}} value="BOOKS">Bookstore</option>
+      </select>
+
+    </div> --}}
+    {{!-- <div class="form-group">
+      <label for="lng">Longitude</label>
+      <input value="{{location.coordinates.[0]}}" class="form-control" type="text" name="lng" id="lng">
+      <label for="lat">Latitude</label>
+      <input value="{{location.coordinates.[1]}}" class="form-control" type="text" name="lat" id="lat">
+    </div> --}}
+    <input type="submit" value="Save" class="btn btn-primary">
+  </form>
+</div>
+
+
+
+<div class="container" id="map" style="width: 80vw; height: 20vw"></div>
+<script>
+  let input_lng = document.getElementById("lng");
+  let input_lat = document.getElementById("lat");
+  //let input_address = document.getElementById("address")
+  mapboxgl.accessToken =
+    "pk.eyJ1Ijoib3R0b2NvZGViZXJsaW4iLCJhIjoiY2swZHhueDF0MGMzbzNobzB1dmQ3Z2x0NiJ9.ybxTXyweubqcEFqhRhyWmw";
+  let map = new mapboxgl.Map({ container: "map", style: "mapbox://styles/mapbox/light-v10" });
+  let geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken, 
+    countries: 'mx',
+    //bbox: [139.965, -38.030, 155.258, -27.839],
+    // apply a client side filter to further limit results to those strictly within
+    // the New South Wales region
+    filter: function (item) {
+    // returns true if item contains New South Wales region
+      return item.context.map(function (i) {
+    // id is in the form {index}.{id} per https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
+    // this example attempts to find the `region` named `New South Wales`
+        return (i.id.split('.').shift() === 'region' && i.text === 'Distrito Federal');
+        }).reduce(function (acc, cur) {
+      return acc || cur;
+      });
+    },
+    mapboxgl: mapboxgl
+  })
+  document.getElementById("search").appendChild(geocoder.onAdd(map))
+  geocoder.on("result", res => {
+    let [lng, lat] = res.result.center;
+    //let address = res.result.place_name;
+    input_lng.value = lng;
+    input_lat.value = lat;
+    //input_address.value = address;
+  });
+  map.addControl(new mapboxgl.NavigationControl());
+</script>
+</div> 
+
+
+<div class="container">
+  <h2>New Post</h2>
+  <br>
+  <form action="/{{_id}}/newTrip" method="post" enctype="multipart/form-data">
+    <input type="file" name="postPicture">
+
+    <br>
+    <label for="content">Your content goes here:</label>
+    <textarea type="text" name="content" class="form-control" cols="30" rows="10"> </textarea>
+    <br>
+    <i class="fas fa-bus-alt"></i>
+    <i class="fas fa-subway"></i>
+    <i class="fas fa-bicycle"></i>
+    <i class="fas fa-walking"></i>
+    <i class="fas fa-car-side"></i>
+    <input type="submit" value="Save">
+    <br>
+    <br>
+    <a href="/profile">Back</a>
+  </form>
+</div>
