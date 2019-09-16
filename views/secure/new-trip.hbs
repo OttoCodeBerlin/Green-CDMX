@@ -1,10 +1,53 @@
 
 <div class="container mt-5">
+  <div>
+    <p id="text-message">Select start address of your route: {{location.coordinates.[0]}}</p>
+  </div>
 <div id="search" class="input-group mb-3">
   <div  class="form-group ml-0"></div>
   {{!-- <div id='map' style='display: inline-flex;width: 400px; height: 300px;'></div> --}}
 </div>
-<div class="input-group mb-3">
+<div class="container" id="map" style="width: 80vw; height: 20vw; margin: 25px;"></div>
+<div id="results-div">
+  <button class="btn btn-primary" id="select-button" onclick="toggleSearch()">Add Start Coordinates</button>
+</div>
+<div class="card-group" id="routing-alternatives" style="visibility: hidden;">
+  <div class="card">
+    <i class="fas fa-walking">Walking</i>
+    <div class="card-body">
+      <h5 class="card-title">Walking</h5>
+      <p class="card-text" id="walking-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Last updated 3 mins ago</small>
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card">
+    <i class="fas fa-bicycle"></i>
+    <div class="card-body">
+      <h5 class="card-title">Biking</h5>
+      <p class="card-text" id="biking-text">This card has supporting text below as a natural lead-in to additional content.</p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Last updated 3 mins ago</small>
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+  <div class="card">
+    <i class="fas fa-car-side"></i>
+    <div class="card-body">
+      <h5 class="card-title">By Car</h5>
+      <p class="card-text" id="driving-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Last updated 3 mins ago</small>
+    </div>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div>
+
+<div class="input-group mt-3">
   <div class="input-group-prepend">
     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Recent Trips</button>
     <div class="dropdown-menu">
@@ -26,29 +69,22 @@
       <input value="{{name}}" class="form-control" type="text" name="name" id="name">
     </div>
     {{!-- <div class="form-group">
-      <label for="type">Select Coffeeshop or Bookstore</label>
-      <select class="custom-select" name="type" id="type">
-        <option {{#if isCoffeeshop}} selected {{/if}} value="COFFEE">Coffeeshop</option>
-        <option {{#if isBookstore}} selected {{/if}} value="BOOKS">Bookstore</option>
-      </select>
-
-    </div> --}}
-    {{!-- <div class="form-group">
       <label for="lng">Longitude</label>
       <input value="{{location.coordinates.[0]}}" class="form-control" type="text" name="lng" id="lng">
       <label for="lat">Latitude</label>
       <input value="{{location.coordinates.[1]}}" class="form-control" type="text" name="lat" id="lat">
     </div> --}}
+     
     <input type="submit" value="Save" class="btn btn-primary">
   </form>
 </div>
 
 
 
-<div class="container" id="map" style="width: 80vw; height: 20vw"></div>
+
 <script>
-  let input_lng = document.getElementById("lng");
-  let input_lat = document.getElementById("lat");
+  let button_val = document.getElementById("select-button");
+  //let input_lat = document.getElementById("lat");
   //let input_address = document.getElementById("address")
   mapboxgl.accessToken =
     "pk.eyJ1Ijoib3R0b2NvZGViZXJsaW4iLCJhIjoiY2swZHhueDF0MGMzbzNobzB1dmQ3Z2x0NiJ9.ybxTXyweubqcEFqhRhyWmw";
@@ -59,27 +95,133 @@
     //bbox: [139.965, -38.030, 155.258, -27.839],
     // apply a client side filter to further limit results to those strictly within
     // the New South Wales region
-    filter: function (item) {
+    //filter: function (item) {
     // returns true if item contains New South Wales region
-      return item.context.map(function (i) {
+    //  return item.context.map(function (i) {
     // id is in the form {index}.{id} per https://github.com/mapbox/carmen/blob/master/carmen-geojson.md
     // this example attempts to find the `region` named `New South Wales`
-        return (i.id.split('.').shift() === 'region' && i.text === 'Distrito Federal');
-        }).reduce(function (acc, cur) {
-      return acc || cur;
-      });
-    },
+   //     return (i.id.split('.').shift() === 'region' && i.text === 'Distrito Federal');
+   //     }).reduce(function (acc, cur) {
+    //  return acc || cur;
+    //  });
+   // },
     mapboxgl: mapboxgl
   })
+  let coordArray
+  let nameArray
   document.getElementById("search").appendChild(geocoder.onAdd(map))
-  geocoder.on("result", res => {
-    let [lng, lat] = res.result.center;
-    //let address = res.result.place_name;
-    input_lng.value = lng;
-    input_lat.value = lat;
-    //input_address.value = address;
-  });
-  map.addControl(new mapboxgl.NavigationControl());
+
+  geocoder.on('result', function(results) {
+   console.log(results.result.place_name);
+   console.log(results.result.center);
+   nameArray=results.result.place_name
+   coordArray=results.result.center
+   button_val.innerText = 'Add the following address: ' + nameArray;
+  })
+ // geocoder.on("result", res => {
+   // let [lng, lat] = res.result.center;
+    //let address = res.from.place_name;
+   //
+   // input_lat.value = lat;
+  //input_address.value = address;
+ // });
+
+  let searchState=0
+  let fromArray={}
+  let toArray={}
+ async function toggleSearch() {
+    if (searchState===0) {
+      fromArray.address=nameArray
+      fromArray.coords=coordArray
+      console.log(fromArray)
+       document.getElementById("text-message").innerHTML = "Now select your destination:"
+       document.getElementById("select-button").innerHTML = "Add Destination"
+      let para = document.createElement("P");                       // Create a <p> node
+      para.classList.add("mt-4");
+      let t = document.createTextNode('Your start address: ' +nameArray);      // Create a text node
+      para.appendChild(t);                                          // Append the text to <p>
+      document.getElementById("results-div").appendChild(para);   
+      searchState=1
+    } else if (searchState===1) {
+      toArray.address=nameArray
+      toArray.coords=coordArray
+      para = document.createElement("P");                       // Create a <p> node
+      para.classList.add("mt-4");
+      t = document.createTextNode('Your destination address: ' +nameArray);      // Create a text node
+      para.appendChild(t);                                          // Append the text to <p>
+      document.getElementById("results-div").appendChild(para);   
+      document.getElementById("text-message").innerHTML = "Ready to calculate your trip!"
+       document.getElementById("select-button").innerHTML = "Calculate"
+      searchState=2
+    } else if (searchState===2) {
+      let walking= await getRouteWalking(fromArray.coords, toArray.coords)
+      let biking= await getRouteBiking(fromArray.coords, toArray.coords)
+      let driving= await getRouteDriving(fromArray.coords, toArray.coords)
+      walking= walking[0]
+      biking=biking[0]
+      driving= driving[0]
+      
+      document.getElementById("routing-alternatives").style.visibility = "visible";
+      let walkingDistance=walking.distance
+      let walkingDuration=walking.duration
+      let text = 'Distance when you walk: ' + (walkingDistance/1000).toFixed(1) + ' km. Duration: '+ Math.floor(walkingDuration/60)+ ' min '
+      document.getElementById("walking-text").innerHTML = text
+     
+     
+      
+      let bikingDistance=biking.distance
+      let bikingDuration=biking.duration
+      text = 'Distance by Bike: ' +(bikingDistance/1000).toFixed(1) + ' km. Duration: '+ Math.floor(bikingDuration/60)+ ' min '
+      document.getElementById("biking-text").innerHTML = text
+                                               
+      let drivingDistance=driving.distance
+      let drivingDuration=driving.duration
+      text = 'Distance by Car: ' +(drivingDistance/1000).toFixed(1) + ' km. Duration: '+ Math.floor(drivingDuration/60)+ ' min '
+      document.getElementById("driving-text").innerHTML = text
+
+      //document.getElementById("text-message").innerHTML = "Ready to calculate your trip!"
+       //document.getElementById("select-button").innerHTML = "Calculate"
+      //searchState=2
+        } 
+  }
+
+
+  function getRouteWalking(start,end) {
+  let url = 'https://api.mapbox.com/directions/v5/mapbox/walking/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+  return fetch(url)
+  .then(res => res.json())
+  .then(res => res.routes)
+ }
+
+ function getRouteBiking(start,end) {
+  let url = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+  return fetch(url)
+  .then(res => res.json())
+  .then(res => res.routes)
+ }
+
+ function getRouteDriving(start,end) {
+  let url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?steps=true&geometries=geojson&access_token=' + mapboxgl.accessToken;
+  return fetch(url)
+  .then(res => res.json())
+  .then(res => res.routes)
+ }
+
+//JSON.parse(xhr.responseText)
+ //var coordinates = jsonobject.routes[0].geometry.coordinates;
+//coordinates = coordinates.map(c => [c[1],c[0]]);
+//var polyline = L.polyline(coordinates, {color: 'red'}).addTo(map);
+//map.fitBounds(polyline.getBounds());
+// Note the addition of the "overview=full&geometries=geojson" parameters - these simplify extracting the actual line from the response quite a bit.
+//var URL ='https://api.mapbox.com/directions/v5/mapbox/driving/167.7180,-45.4146;168.7278,-44.9682?overview=full&geometries=geojson&access_token=YOUR_KEY';
+
+
+
+
+
+
+  // map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
+  //map.addControl(new mapboxgl.NavigationControl());
 </script>
 </div> 
 

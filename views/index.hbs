@@ -48,7 +48,10 @@
     //zoom: 15
   });
 
-  map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
+//var bounds = [[-99.342, 19.593], [-98.948, 19.187]];
+// map.setMaxBounds(bounds);
+  let returnValue=map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
+  console.log(returnValue)
   //add control panel
   map.addControl(new mapboxgl.NavigationControl())
   //const marker = new mapboxgl.Marker()
