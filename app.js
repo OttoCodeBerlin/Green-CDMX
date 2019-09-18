@@ -120,7 +120,9 @@ passport.use(
               email,
               password: hashPass,
               city,
-              zip
+              zip, 
+              accCo2: 0,
+              accCals: 0
             })
 
             newUser.save(err => {

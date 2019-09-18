@@ -8,8 +8,9 @@ const UserSchema = new Schema({
   email: String,
   password: String,
   city: String,
-  zip: Number
-  //profilePicture: { type: Schema.Types.ObjectId, ref: 'Picture' }
+  zip: Number,
+  accCo2: Number,
+  accCals: Number
 })
 
 const User = mongoose.model('User', UserSchema)
