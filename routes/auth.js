@@ -129,16 +129,16 @@ router.get('/secure/confirm/:tripid/:userid', (req, res) => {
 
 
 
-router.get('/index-auth', ensureLoggedIn('/login'), async (req, res, next) => {
-  let trip = await Trip.find().populate()
-  let createdByArray = []
-  for (let index = 0; index < trip.length; index++) {
-    let curUser = await User.findById(trip[index].createdBy).populate()
-    trip[index].clearName = curUser.username
-  }
-  const user = await User.findById(req.user._id).populate()
-  res.render('secure/index-auth', { trip, createdByArray, user })
-})
+// router.get('/index-auth', ensureLoggedIn('/login'), async (req, res, next) => {
+//   let trip = await Trip.find().populate()
+//   let createdByArray = []
+//   for (let index = 0; index < trip.length; index++) {
+//     let curUser = await User.findById(trip[index].createdBy).populate()
+//     trip[index].clearName = curUser.username
+//   }
+//   const user = await User.findById(req.user._id).populate()
+//   res.render('secure/index-auth', { trip, createdByArray, user })
+// })
 
 router.get('/logout', ensureLoggedIn('/login'), (req, res) => {
   req.logout()

@@ -1,9 +1,49 @@
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #057717;">
+    <a class="navbar-brand" href="#">GreenCDMX</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="navbar-brand" href="#">
+            {{!-- <img src="/public/images/bootstrap-solid.svg" width="30" height="30" alt=""> --}}
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+        </li>
+        
+                {{!-- <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li> --}}
+      </ul>
+      <div>
+        <a href="/signup"><button class="btn btn-outline-secondary my-2 my-sm-0" style="background-color: white;"
+            type="submit">Sign
+            Up</button></a>
+        <a href="/login"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+            style="background-color: #052C77; color: white; border-color:white;">Log
+            In</button></a>
+      </div>
+    </div>
+  </nav>
+
+
+
 <div class="jumbotron">
   <div class="container">
     <h1 class="display-3">Your step towards a greener city</h1>
-    <p>Green CDMX helps you to ......</p>
-    <p><a class="btn btn-primary btn-lg" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#"
-        role="button">Learn more »</a></p>
+    <p>Green CDMX helps reduce CO2 emissions, to improve air quality in the city. Also, you can track your fitness by walking or riding a bike</p>
+    <ul class="list-group mt-5">
+  <li class="list-group-item active">Our top users</li>
+  <li class="list-group-item">ABC</li>
+  <li class="list-group-item">ABC</li>
+  <li class="list-group-item">ABC</li>
+  
+</ul>
   </div>
 </div>
 
@@ -37,65 +77,6 @@
   <hr>
 </div>
 
-{{!-- Map --}}
-<div class="container" id="map" style="width: 100%; height: 50vw;"></div>
-<script>
-  mapboxgl.accessToken = "pk.eyJ1Ijoib3R0b2NvZGViZXJsaW4iLCJhIjoiY2swZHhueDF0MGMzbzNobzB1dmQ3Z2x0NiJ9.ybxTXyweubqcEFqhRhyWmw";
-  const map = new mapboxgl.Map({
-    container: "map",
-    style: "mapbox://styles/mapbox/light-v10",
-    //center: [-99.1711, 19.399],
-    //zoom: 15
-  });
-
-//var bounds = [[-99.342, 19.593], [-98.948, 19.187]];
-// map.setMaxBounds(bounds);
-  let returnValue=map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
-  console.log(returnValue)
-  //add control panel
-  map.addControl(new mapboxgl.NavigationControl())
-  //const marker = new mapboxgl.Marker()
-  //  .setLngLat([-99.1711, 19.399])
-  //  .addTo(map);
-
-  // Try to get a geolocation object from the web browser
-  if (navigator.geolocation) {
-
-    // Get current position
-    // The permissions dialog will pop up
-    navigator.geolocation.getCurrentPosition(function (position) {
-      // Create an object to match Mapbox's Lat-Lng array format
-      const center = [
-        position.coords.longitude,
-        position.coords.latitude,
-      ];
-      map.setZoom(12).setCenter(center)
-
-      new mapboxgl.Marker({ color: 'red' })
-        .setLngLat(center)
-        .setPopup(new mapboxgl.Popup().setHTML("<h3>You are here</h3>"))
-        .addTo(map)
-      //console.log('center: ', center)
-      // User granted permission
-      // Center the map in the position we got
-    });
-  }
-
-  let locations = []
-  let names = []
-
-  {{#each places as |place|}}
-  locations.push({{{place.location}}})
-  names.push("{{place.name}}")
-  {{/each}}
-      locations.forEach((place, i) => {
-        let [lng, lat] = place.coordinates
-        let place_position = [lng, lat]
-        let popup = new mapboxgl.Popup().setText(names[i])
-        let marker = new mapboxgl.Marker().setLngLat(place_position).setPopup(popup).addTo(map)
-      }) 
-</script>
-</div>
 
 <div class="container">
   <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
