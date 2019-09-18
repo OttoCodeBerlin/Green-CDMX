@@ -1,6 +1,6 @@
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #057717;">
-    <a class="navbar-brand" href="#">GreenCDMX</a>
+    <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p> 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -41,20 +41,26 @@
       <h1>{{user.accCo2}} kg CO2</h1>
       
       <h5 class="card-title">Your CO2 Savings Account</h5>
+       {{#if user.accCo2}}
       <p class="card-text">Good Job!</p>
+      {{else}}
+      <p class="card-text">Time to start collecting CO2 points!</p>
+      {{/if}}
     </div>
     <div class="card-footer">
-      {{!-- <small class="text-muted">Last updated 3 mins ago</small> --}}
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h1>{{user.accCals}} Calories</h1>
       <h5 class="card-title">Your Burned Calories Account</h5>
-      <p class="card-text">You are on your way!</p>
+       {{#if user.accCals}}
+    <p class="card-text">You are on your way!</p>
+     {{else}}
+      <p class="card-text">Your calories are waiting to be burned!</p>
+      {{/if}}
     </div>
     <div class="card-footer">
-      {{!-- <small class="text-muted">Last updated 3 mins ago</small> --}}
     </div>
   </div>
 </div>

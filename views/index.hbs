@@ -1,5 +1,5 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #057717;">
-    <a class="navbar-brand" href="#">GreenCDMX</a>
+     <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p> 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -38,10 +38,19 @@
     <h1 class="display-3">Your step towards a greener city</h1>
     <p>Green CDMX helps reduce CO2 emissions, to improve air quality in the city. Also, you can track your fitness by walking or riding a bike</p>
     <ul class="list-group mt-5">
-  <li class="list-group-item active">Our top users</li>
+  <li class="list-group-item active" style="background-color: #052C77; color: white; border-color:white;"><i class="fab fa-envira"></i>  Our CO2 Champions</li>
+
+
+
+  {{#each user}}
+      <li class="list-group-item">
+         {{username}} with <b> {{accCo2}}kg </b>accumulated CO2 savings
+
+      </li>
+      {{/each}}
+  {{!-- <li class="list-group-item">ABC</li>
   <li class="list-group-item">ABC</li>
-  <li class="list-group-item">ABC</li>
-  <li class="list-group-item">ABC</li>
+  <li class="list-group-item">ABC</li> --}}
   
 </ul>
   </div>

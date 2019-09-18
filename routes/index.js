@@ -5,14 +5,12 @@ const User = require('../models/User')
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-  // let post = await Post.find().populate('postPicture')
-  // let createdByArray = []
-  // for (let index = 0; index < post.length; index++) {
-  //   let curUser = await User.findById(post[index].createdBy).populate()
-  //   post[index].clearName = curUser.username
-  // }
-  //res.render('index', { post, createdByArray })
-  res.render('index')
+  let user = await User.find().populate()
+  if (user.length >= 3) {
+    user.sort((a, b) => (a.accCo2 < b.accCo2) ? 1 : -1)
+    user.length=3
+  }
+  res.render('index', { user })
 })
 
 module.exports = router

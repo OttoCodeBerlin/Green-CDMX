@@ -101,8 +101,16 @@ router.get('/secure/confirm/:tripid/:userid', (req, res) => {
   let globalParams=req.params
   let co2Trip
   let calTrip
+  let tripOriginLat
+  let tripOriginLng
+  let tripDestinationLat
+  let tripDestinationLng
   Trip.findById(req.params.tripid)
   .then(trip => {
+    tripOriginLat=trip.fromCoords[0]
+    tripOriginLng=trip.fromCoords[1]
+    tripDestinationLat=trip.toCoords[0]
+    tripDestinationLng=trip.toCoords[1]
     let statusActual=trip.status 
     co2Trip=trip.co2 
     calTrip=trip.cal
@@ -115,8 +123,8 @@ router.get('/secure/confirm/:tripid/:userid', (req, res) => {
           let cal =  user.accCals +calTrip
           User.findByIdAndUpdate(globalParams.userid, { accCo2: co2, accCals: cal })
           .then (user => {
-            
-            res.redirect('/profile')
+            let googleMapsLink="https://www.google.com/maps/dir/?api=1&origin=" + tripOriginLng+ ","+tripOriginLat +"&destination=" + tripDestinationLng + "," + tripDestinationLat
+            res.render('secure/email-clicked',{user, co2Trip, calTrip, googleMapsLink})
            })
           })
         })

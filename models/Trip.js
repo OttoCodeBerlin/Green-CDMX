@@ -4,8 +4,8 @@ const Schema = mongoose.Schema
 const TripSchema = new Schema({
   fromAdr: String,
   toAdr: String,
-  fromCoords: [Schema.Types.Decimal128],
-  toCoords: [Schema.Types.Decimal128],
+  fromCoords: [Number],
+  toCoords: [Number],
   status: {
     type: String,
     enum: ['Pending Confirmation', 'Confirmed'],

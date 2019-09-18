@@ -8,3 +8,8 @@ body {
 
 
 /*# sourceMappingURL=style.css.map */
+
+.save_button {
+  min-width: 180px;
+    max-width: 180px;
+}
