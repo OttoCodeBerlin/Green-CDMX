@@ -1,35 +1,36 @@
-
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #057717;">
-    <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p> 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="navbar-brand" href="#">
-            {{!-- <img src="/public/images/bootstrap-solid.svg" width="30" height="30" alt=""> --}}
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/profile">Profile</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/logout">Log Out</a>
-        </li>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="navbar-brand" href="#">
+          {{!-- <img src="/public/images/bootstrap-solid.svg" width="30" height="30" alt=""> --}}
+        </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/logout">Log Out</a>
+      </li>
 
-      </ul>
+    </ul>
 
-    </div>
-  </nav>
+  </div>
+</nav>
 
 <div class="jumbotron">
   <h1 class="display-4">The trip has been credited to your account!</h1>
-  <p class="lead">You earned <i>{{co2Trip}}</i> CO2 credits and will burn  <i>{{calTrip}}</i> calories!</p>
+  <p class="lead">You earned <i>{{co2Trip}}</i> g CO2 credits and will burn <i>{{calTrip}}</i> kcal calories!</p>
   <hr class="my-4">
-  <a href={{googleMapsLink}}><button class="btn btn-outline-secondary my-2 my-sm-0" style="background-color: white; color:#052C77"
-            type="submit">Get directions for your trip in Google Maps</button></a>
-  <a class="btn btn-primary btn-outline-success my-2 my-sm-0" href="/profile" role="button" style="background-color: #052C77; color: white; border-color:white;">Back to Profile</a>
+  <a href={{googleMapsLink}}><button class="btn btn-outline-secondary my-2 my-sm-0"
+      style="background-color: white; color:#052C77" type="submit">Get directions for your trip in Google
+      Maps</button></a>
+  <a class="btn btn-primary btn-outline-success my-2 my-sm-0" href="/profile" role="button"
+    style="background-color: #052C77; color: white; border-color:white;">Back to Profile</a>
 </div>

@@ -109,8 +109,7 @@ passport.use(
               username,
               email,
               password,
-              city,
-              zip
+              bodyweight
             } = req.body
             const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
             const newUser = new User({
@@ -119,8 +118,7 @@ passport.use(
               username,
               email,
               password: hashPass,
-              city,
-              zip, 
+              bodyweight,
               accCo2: 0,
               accCals: 0
             })

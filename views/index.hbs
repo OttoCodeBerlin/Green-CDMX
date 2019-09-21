@@ -15,10 +15,6 @@
         <li class="nav-item active">
           <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
         </li>
-        
-                {{!-- <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li> --}}
       </ul>
       <div>
         <a href="/signup"><button class="btn btn-outline-secondary my-2 my-sm-0" style="background-color: white;"
@@ -33,10 +29,10 @@
 
 
 
-<div class="jumbotron">
-  <div class="container">
-    <h1 class="display-3">Your step towards a greener city</h1>
-    <p>Green CDMX helps reduce CO2 emissions, to improve air quality in the city. Also, you can track your fitness by walking or riding a bike</p>
+<div class="jumbotron jumbo">
+  <div class="container jumbotron-inner">
+    <h1 class="display-3">Your step towards a cleaner city</h1>
+    {{!-- <h4>Green CDMX helps reduce CO2 emissions, to improve air quality in the city. Also, you can track your fitness by walking or riding a bike</h4> --}}
     <ul class="list-group mt-5">
   <li class="list-group-item active" style="background-color: #052C77; color: white; border-color:white;"><i class="fab fa-envira"></i>  Our CO2 Champions</li>
 
@@ -59,76 +55,21 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <h2>Pick the route that fits</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-        condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec
-        sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#" role="button">View
-          details »</a></p>
+      <h2>Improve air quality</h2>
+      <p>Every ride in a conventional car produces local CO2 emissions. By using the bike instead, or by walking, you can proactively save those emissions. The GreenCDMX app calculates the CO2 savings for your personal routes and credits them to your account.</p>
     </div>
     <div class="col-md-4">
-      <h2>How Green CDMX works</h2>
-      <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-        condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec
-        sed odio dui. </p>
-      <p><a class="btn btn-secondary" href="https://getbootstrap.com/docs/4.3/examples/jumbotron/#" role="button">View
-          details »</a></p>
+      <h2>Stay healthy</h2>
+      <p>Save the money for the gym and explore new corners of the city while walking or biking. Works with bike sharing systems as well! GreenCDMX calculates the calories burned per ride for you, and adds them to our account. Calculations are customized to your age and body.</p>
     </div>
     <div class="col-md-4">
       <h2>Get Started</h2>
-      <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta
-        felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum
-        massa justo sit amet risus.</p>
+      <p>Ready to give it a try? Sign up, it's free!</p>
       <p><a class="btn btn-secondary" href="/signup" role="button">Sign
           Up »</a></p>
+          <p class="mt-4">Already part of GreenCDMX? <a href="/login">Log In</a></p>
     </div>
   </div>
   <hr>
 </div>
 
-
-<div class="container">
-  <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img src="../images/city-3985941_1280.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>Green CDMX</h1>
-          <p>Help your city to improve the life quality by reducing CO2 emissions</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="../images/mexico-4066419_1280.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>Stay healthy</h1>
-          <p>Move your ass.</p>
-        </div>
-      </div>
-      <div class="carousel-item">
-        <img src="../images/portrait-3091044_1280.jpg" class="d-block w-100" alt="...">
-        <div class="carousel-caption d-none d-md-block">
-          <h1>Stay healthy</h1>
-          <p>Move your ass.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="container">
-  <br>
-  <h2>Recent Trips</h2>
-  <div class="row">
-    {{#each trip}}
-    <div class="col-4">
-      <br>
-      <p> {{content}}</p>
-      <img class="post-img" src="{{ this.postPicture.path }}" alt="{{ this.postPicture.originalName }}" /> <br>
-      <small>Created By: {{clearName}}</small>
-      <a href="/edit-book?bookid={{this._id}}">
-        <button class="btn btn-secondary">Edit</button>
-      </a>
-    </div>
-    {{/each}}
-  </div>
-</div>

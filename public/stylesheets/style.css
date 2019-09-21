@@ -13,3 +13,24 @@ body {
   min-width: 180px;
     max-width: 180px;
 }
+
+.jumbo {
+  background-image: url("../images/city-3985941_1280.jpg");
+  background-size: cover;
+  height: 100%;
+}
+
+.jumbo-exists {
+  background-image: url("../images/portrait-3091044_1280.jpg");
+  background-size: cover;
+  height: 100%;
+}
+
+.mapboxgl-marker {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  border:1px solid gray;
+  background-color:red;
+}
+
