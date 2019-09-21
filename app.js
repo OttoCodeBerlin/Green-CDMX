@@ -15,7 +15,6 @@ const mongoose = require('mongoose')
 const flash = require('connect-flash')
 const hbs = require('hbs')
 
-
 mongoose
   .connect(process.env.DB, {
     useNewUrlParser: true
@@ -62,80 +61,80 @@ passport.deserializeUser((id, cb) => {
 passport.use(
   'local-login',
   new LocalStrategy((username, password, next) => {
-    User.findOne({
-      username
-    }, (err, user) => {
-      if (err) {
-        return next(err)
-      }
-      if (!user) {
-        return next(null, false, {
-          message: 'Incorrect username'
-        })
-      }
-      if (!bcrypt.compareSync(password, user.password)) {
-        return next(null, false, {
-          message: 'Incorrect password'
-        })
-      }
+    User.findOne(
+      {
+        username
+      },
+      (err, user) => {
+        if (err) {
+          return next(err)
+        }
+        if (!user) {
+          return next(null, false, {
+            message: 'Incorrect username'
+          })
+        }
+        if (!bcrypt.compareSync(password, user.password)) {
+          return next(null, false, {
+            message: 'Incorrect password'
+          })
+        }
 
-      return next(null, user)
-    })
+        return next(null, user)
+      }
+    )
   })
 )
 
 passport.use(
   'local-signup',
-  new LocalStrategy({
-    passReqToCallback: true
-  }, (req, username, password, next) => {
-    // To avoid race conditions
-    process.nextTick(() => {
-      User.findOne({
-          username: username
-        },
-        (err, user) => {
-          if (err) {
-            return next(err)
-          }
+  new LocalStrategy(
+    {
+      passReqToCallback: true
+    },
+    (req, username, password, next) => {
+      // To avoid race conditions
+      process.nextTick(() => {
+        User.findOne(
+          {
+            username: username
+          },
+          (err, user) => {
+            if (err) {
+              return next(err)
+            }
 
-          if (user) {
-            return next(null, false)
-          } else {
-            // Destructure the body
-            const {
-              firstname,
-              lastname,
-              username,
-              email,
-              password,
-              bodyweight
-            } = req.body
-            const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
-            const newUser = new User({
-              firstname,
-              lastname,
-              username,
-              email,
-              password: hashPass,
-              bodyweight,
-              accCo2: 0,
-              accCals: 0
-            })
+            if (user) {
+              return next(null, false)
+            } else {
+              // Destructure the body
+              const { firstname, lastname, username, email, password, bodyweight } = req.body
+              const hashPass = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null)
+              const newUser = new User({
+                firstname,
+                lastname,
+                username,
+                email,
+                password: hashPass,
+                bodyweight,
+                accCo2: 0,
+                accCals: 0
+              })
 
-            newUser.save(err => {
-              if (err) {
-                next(null, false, {
-                  message: newUser.errors
-                })
-              }
-              return next(null, newUser)
-            })
+              newUser.save(err => {
+                if (err) {
+                  next(null, false, {
+                    message: newUser.errors
+                  })
+                }
+                return next(null, newUser)
+              })
+            }
           }
-        }
-      )
-    })
-  })
+        )
+      })
+    }
+  )
 )
 // Middleware Setup
 app.use(flash())
@@ -143,9 +142,11 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(logger('dev'))
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+)
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 

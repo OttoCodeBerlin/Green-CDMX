@@ -38,24 +38,20 @@ router.get('/profile', ensureLoggedIn('/login'), async function(req, res) {
   const pictures = await User.findById(req.user._id).populate()
   res.render('secure/profile', {
     user: req.user
-    //pictures: pictures.profilePicture
   })
 })
 
-router.get('/:id/trip', ensureLoggedIn('/login'), async (req, res) => {
+router.get('/:id/trip', ensureLoggedIn('/login'), async (req, res) => {  //New Trip Get
   const { id } = req.params
   const user = await User.findById(id)
   const trip = await Trip.find({ userId: id }).then(trips => {
-    console.log(trips)
     res.render('secure/new-trip', { user, trips })
   })
 })
 
-router.post('/:id/newTrip', ensureLoggedIn('/login'), async (req, res) => {
-  //try {
+router.post('/:id/newTrip', ensureLoggedIn('/login'), async (req, res) => { //New Trip post generates email
   let { id } = req.params
   let { fromAdr, toAdr, fromLng, fromLat, toLng, toLat, co2, cal } = req.body
-  console.log(req.body)
   let userId = id
   let email
   const userEmail = User.findById(userId).then(user => {
@@ -80,17 +76,8 @@ router.post('/:id/newTrip', ensureLoggedIn('/login'), async (req, res) => {
         from: '"Green CDMX" <mailer@greencdmx.com>',
         to: email,
         subject: 'Confirm Your Next Trip with Green CDMX',
-        // html:
-        //   firstEmailSnippet +
-        //   data.username +
-        //   secondEmailSnippet +
-        //   'http://localhost:3000/auth/confirm/' +
-        //   data.confirmationCode +
-        //   thirdEmailSnippet
-        //Hier müsste man den User noch suchen, seine ID wäre data.userId
         text:
           'Hello' +
-          // data.username +
           '! Please click here to confirm your route: ' +
           req.headers.origin +
           '/secure/confirm/' +
@@ -106,7 +93,7 @@ router.post('/:id/newTrip', ensureLoggedIn('/login'), async (req, res) => {
     })
 })
 
-router.get('/secure/confirm/:tripid/:userid', (req, res) => {
+router.get('/secure/confirm/:tripid/:userid', (req, res) => {  //This route is called when the user clicks the email link
   let globalParams = req.params
   let co2Trip
   let calTrip
@@ -123,13 +110,13 @@ router.get('/secure/confirm/:tripid/:userid', (req, res) => {
     co2Trip = trip.co2
     calTrip = trip.cal
     if (statusActual === 'Pending Confirmation') {
-      Trip.findByIdAndUpdate(globalParams.tripid, { status: 'Confirmed' }).then(trip => {
+      Trip.findByIdAndUpdate(globalParams.tripid, { status: 'Confirmed' }).then(trip => { //Set trip to "confirmed"
         User.findById(globalParams.userid).then(user => {
           let co2 = user.accCo2 + co2Trip
           let cal = user.accCals + calTrip
           User.findByIdAndUpdate(globalParams.userid, { accCo2: co2, accCals: cal }) //Credit the CO2 and calories to the user account
             .then(user => {
-              let googleMapsLink =
+              let googleMapsLink = //Generate Google Maps link
                 'https://www.google.com/maps/dir/?api=1&origin=' +
                 tripOriginLng +
                 ',' +
@@ -142,22 +129,12 @@ router.get('/secure/confirm/:tripid/:userid', (req, res) => {
             })
         })
       })
-    } else if (statusActual === 'Confirmed') {
+    } else if (statusActual === 'Confirmed') { //If link was already clicked, show error message.
       res.render('secure/route-exists')
     }
   })
 })
 
-// router.get('/index-auth', ensureLoggedIn('/login'), async (req, res, next) => {
-//   let trip = await Trip.find().populate()
-//   let createdByArray = []
-//   for (let index = 0; index < trip.length; index++) {
-//     let curUser = await User.findById(trip[index].createdBy).populate()
-//     trip[index].clearName = curUser.username
-//   }
-//   const user = await User.findById(req.user._id).populate()
-//   res.render('secure/index-auth', { trip, createdByArray, user })
-// })
 
 router.get('/logout', ensureLoggedIn('/login'), (req, res) => {
   req.logout()

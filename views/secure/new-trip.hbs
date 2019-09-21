@@ -19,7 +19,7 @@
         <a class="nav-link" href="/logout">Log Out</a>
       </li>
 
-      <li class="nav-item active">
+      {{!-- <li class="nav-item active">
 
         <div class="input-group-prepend">
           <button class="btn btn-primary dropdown-toggle ml-5" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -27,12 +27,12 @@
           <div class="dropdown-menu">
             {{#each trips as |trip|}}
             <a class="dropdown-item"
-              onclick="fillAdr( {{trip.fromCoords.[0]}} , {{trip.fromCoords.[1]}} , {{trip.toCoords.[0]}} , {{trip.toCoords.[1]}} )">{{trip.fromAdr}}
+              onclick="fillAdr( {{trip.fromCoords.[0]}} , {{trip.fromCoords.[1]}} , {{trip.toCoords.[0]}} , {{trip.toCoords.[1]}}, {{trip.fromAdr}}, {{trip.toAdr}}, {{trip.co2}}, {{trip.cal}})">{{trip.fromAdr}}
               <b>to</b> {{trip.toAdr}}</a>
             {{/each}}
 
           </div>
-      </li>
+      </li> --}}
     </ul>
 
   </div>
@@ -76,6 +76,8 @@
     </table>
 
     <div class="card-group mb-5" id="routing-alternatives" style="visibility: hidden;">
+
+      <input class="form-control" type="number" name="kgs" id="kgs" value="{{user.bodyweight}}">
 
       <div class="card">
         <div class="card-body">
@@ -191,18 +193,19 @@
 
 
       <script>//Mapbox script and trip subfunctions
+        let kg = document.getElementById("kgs").value //User body weight for calories calculation
 
         let button_val = document.getElementById("select-button");
         mapboxgl.accessToken =
           "pk.eyJ1Ijoib3R0b2NvZGViZXJsaW4iLCJhIjoiY2swZHhueDF0MGMzbzNobzB1dmQ3Z2x0NiJ9.ybxTXyweubqcEFqhRhyWmw";
-        let map = new mapboxgl.Map({ container: "map", style: "mapbox://styles/mapbox/light-v8" }); //light
+        let map = new mapboxgl.Map({ container: "map", style: "mapbox://styles/mapbox/light-v8" }); //new Map, light colors
         let geocoder = new MapboxGeocoder({
           accessToken: mapboxgl.accessToken,
           marker: {
             color: 'orange'
           },
-          countries: 'mx',
-          bbox: [-99.335248, 19.188939, -98.961854, 19.591450],
+          countries: 'mx',  //Mexico only
+          bbox: [-99.335248, 19.188939, -98.961854, 19.591450], //Mexico City area only
 
           mapboxgl: mapboxgl
         })
@@ -212,21 +215,13 @@
         geocoder.on('result', function (results) {
           nameArray = results.result.place_name
           coordArray = results.result.center
-          //button_val.innerText = 'Add the following address: ' + nameArray;
-          //button_val.innerText = 'Add the following address: ' + nameArray;
         })
 
         let fromArray = {}
         let toArray = {}
 
-        function fillAdr(fromLng, fromLat, toLng, toLat) {
-          fromArray.coords = [fromLng, fromLat]
-          toArray.coords = [toLng, toLat]
-          console.log(fromArray.coords)
-          toggleSearch()
-        }
 
-        function toggleStart() {
+        function toggleStart() { //Calculate Start point
           fromArray.address = nameArray
           fromArray.coords = coordArray
           if (nameArray === document.getElementById("to-text").innerHTML) {  //If start and destination are the same, delete the start point
@@ -250,7 +245,7 @@
           }
         }
 
-        function toggleEnd() {
+        function toggleEnd() { //Calculate end point
           toArray.address = nameArray
           toArray.coords = coordArray
           if (document.getElementById("from-text").innerHTML === nameArray) {  //If start and destination are the same, delete the end point
@@ -317,10 +312,6 @@
 
           //For both walking and biking, the calories consumption is nearly identical: 7.5 kcal/h/kg
           //Here comes the calculation for Walking
-          let kg = 70
-          //
-          //
-          //
           // Generate calories out of trip duration
           // For Walking
           calTripWalk = ((walkingDuration / 3600) * 7.5 * kg).toFixed(0)
@@ -374,8 +365,6 @@
             .then(res => res.routes)
         }
 
-  // map.addControl(new MapboxDirections({ accessToken: mapboxgl.accessToken }), 'top-left')
-  //map.addControl(new mapboxgl.NavigationControl());
       </script>
     </div>
     </form>
