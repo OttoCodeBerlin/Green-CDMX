@@ -1,3 +1,5 @@
+//removed ENV=development from .env
+
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
@@ -20,14 +22,14 @@ mongoose
     useNewUrlParser: true
   })
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+    console.log('Todo bien')
   })
   .catch(err => {
     console.error('Error connecting to mongo', err)
   })
 
 const app_name = require('./package.json').name
-const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`)
+//const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`)
 
 const app = express()
 
