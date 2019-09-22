@@ -18,14 +18,12 @@ const flash = require('connect-flash')
 const hbs = require('hbs')
 
 mongoose
-  .connect(process.env.DB, {
-    useNewUrlParser: true
-  })
+  .connect(process.env.DB, { useNewUrlParser: true })
   .then(x => {
-    console.log('Todo bien')
+    console.log('todo bien')
   })
   .catch(err => {
-    console.error('Error connecting to mongo', err)
+    console.log('hay un error', err)
   })
 
 const app_name = require('./package.json').name
