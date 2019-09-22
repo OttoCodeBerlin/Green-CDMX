@@ -1,35 +1,38 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark" style="background-color: #057717;">
-    <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p> 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <p class="navbar-brand m-0" href="#"><b>GreenCDMX</b></p>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="navbar-brand" href="#">
-            {{!-- <img src="/public/images/bootstrap-solid.svg" width="30" height="30" alt=""> --}}
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-        </li>
-       
-                {{!-- <li class="nav-item">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="navbar-brand" href="#">
+          {{!-- <img src="/public/images/bootstrap-solid.svg" width="30" height="30" alt=""> --}}
+        </a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+
+      {{!-- <li class="nav-item">
           <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
         </li> --}}
-      </ul>
-      <div>
-        <a href="/signup"><button class="btn btn-outline-secondary my-2 my-sm-0" style="background-color: white;"
-            type="submit">Sign
-            Up</button></a>
-        <a href="/login"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"
-            style="background-color: #052C77; color: white; border-color:white;">Log
-            In</button></a>
-      </div>
+    </ul>
+    <div>
+      <a href="/signup"><button class="btn btn-outline-secondary my-2 my-sm-0" style="background-color: white;"
+          type="submit">Sign
+          Up</button></a>
+      <a href="/login"><button class="btn btn-outline-success my-2 my-sm-0" type="submit"
+          style="background-color: #052C77; color: white; border-color:white;">Log
+          In</button></a>
     </div>
-  </nav>
+  </div>
+</nav>
 <div class="container">
   <div class="row">
 
@@ -41,8 +44,8 @@
           </div>
           <div class="col-md-4 mb-3">
             <label for="firstname">First name</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name"
-              value="" required>
+            <input type="text" class="form-control" id="firstname" name="firstname" placeholder="First name" value=""
+              required>
           </div>
           <div class="col-md-4 mb-3">
             <label for="lastname">Last name</label>
